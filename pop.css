@@ -1,0 +1,18 @@
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+body{
+padding: 0;
+margin: 0;
+}
+.header{
+    margin: 10px;
+    padding: 5px;
+    display: flex;
+    justify-content: space-around;
+}
+.container{
+    width: 600px;
+    height: 400px;
+}

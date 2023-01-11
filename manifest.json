@@ -1,0 +1,11 @@
+{
+    "manifest_version": 3,
+    "name": "AttributeCopier",
+    "version":"0.1",
+    "description": "Copying HTML tags with the wanted attribute",
+    "permissions": ["activeTab", "tabs", "clipboardRead", "clipboardWrite"],
+    "background": "background.js",
+    "action": {
+        "default_popup": "./pop.html"
+      }
+}
