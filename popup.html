@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="./popup.css" />
+  <!-- <script src="./scripts/parserLogic.js"></script> -->
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>Selector Builder</h2>
+    </div>
+    <div class="actions"></div>
+    <div class="element-description"></div>
+    <div class="attributes-container">
+      <table>
+        <thead>
+          <td>Attribute Name</td>
+          <td>Attribute Value</td>
+          <td>Select Value</td>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="bot-container">
+      <div class="element-selector">
+        <input
+          type="button"
+          class="btn btn-main"
+          value="Start Selecting"
+          id="select-element-button"
+        />
+      </div>
+      <div class="finalize-Action">
+        <input
+          type="button"
+          class="btn btn-success"
+          value="Copy to ClipBoard"
+          id="copyBtn"
+        />
+        <input
+          type="button"
+          class="btn btn-secondary"
+          value="Clear"
+          id="clearBtn"
+        />
+      </div>
+    </div>
+  </div>
+  <script src="./scripts/popup.js"></script>
+</body>
+</html>
