@@ -3,9 +3,17 @@
     "name": "AttributeCopier",
     "version":"0.1",
     "description": "Copying HTML tags with the wanted attribute",
-    "permissions": ["activeTab", "tabs", "clipboardRead", "clipboardWrite"],
-    "background": "background.js",
+    "permissions": ["activeTab", "clipboardRead", "clipboardWrite","scripting", "storage"],
+
     "action": {
-        "default_popup": "./pop.html"
-      }
+        "default_popup": "popup.html"
+    },
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true
+    },
+
+    "background": {
+        "service_worker": "./background.js"
+    }
 }
