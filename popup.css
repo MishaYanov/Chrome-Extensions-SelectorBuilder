@@ -6,13 +6,16 @@
     --color-success-dark: #007e33;
     --color-secondary: #fff;
     --color-text: #fff;
-    --color-tertiary: #f1f1f1;
+    --color-white: #ffffff;
+    --color-gray: lightgrey;
     
     /* styling */
     --border-radius: 0px;
     --border-main: 1px solid #000;
 }
-
+h2{
+    color: rgb(63, 63, 63);
+}
 .disabled {
     pointer-events: none;
     opacity: 0.5;
@@ -27,16 +30,31 @@ border-radius: var(--border-radius);
     border-radius: var(--border-radius);
     position: relative;
     width: 600px;
-    height: 400px;
+    height: 500px;
 }
 .header{
-    margin: 10px;
-    padding: 5px;
     display: flex;
-    justify-content: center;
-
+    justify-content: flex-start;
+    padding: 10px;
+    /* background-color: var(--color-gray); */
+    height: fit-content;
 }
-
+.action-Panel{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: var(--color-gray);
+    border-radius: var(--border-radius);
+    border-top: var(--color-primary) 2px solid;
+    border-bottom: var(--color-primary) 2px solid;
+}
+.action-Panel > div{
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+    align-items: center;
+}
 /* Buttons Logic */
 .btn{
     height: 30px;
@@ -106,7 +124,7 @@ border-radius: var(--border-radius);
 }
 
 .bot-container{
-    background-color: lightgrey;
+    background-color: var(--color-gray);
     width: 600px;
     height: 40px;
     display: flex;
@@ -114,11 +132,9 @@ border-radius: var(--border-radius);
     position: fixed;
     bottom: 0px;
     margin: auto;
+    border-top: var(--color-primary) 2px solid;
     /* border-radius: var(--border-radius); */
 }
-
-
-
 
 /* Table Logic */
 table {
