@@ -4,8 +4,13 @@
     "version":"1.0",
     "description": "Copying HTML tags with the wanted attribute",
     "permissions": ["activeTab", "clipboardRead", "clipboardWrite","scripting", "storage","contextMenus"],
+    "icons": {
+        "32": "icons/icons8-picker-32",
+        "64": "icons/icons8-picker-64"
+    },
     "action": {
-        "default_popup": "popup.html"
+        "default_popup": "popup.html",
+        "default_icon": "icons/icons8-picker-64"
     },
     "options_ui": {
         "page": "options.html",
