@@ -1,6 +1,6 @@
-const parserLogic = {
-  getElementAttributes: (element) => {
-    const attributes = {};
+export const parserLogic = {
+  getElementAttributes: (element:any) => {
+    const attributes:any = {};
     for (let i = 0; i < element.attributes.length; i++) {
       const attr = element.attributes[i];
       const values = attr.value.split(" ");
@@ -8,8 +8,8 @@ const parserLogic = {
     }
     return attributes;
   },
-  concatSameAttributes: (attributes) => {
-    const sameAttributes = {};
+  concatSameAttributes: (attributes:any) => {
+    const sameAttributes:any = {};
     for (const key in attributes) {
       if (attributes.hasOwnProperty(key)) {
         const value = attributes[key];
@@ -22,7 +22,7 @@ const parserLogic = {
     }
     return sameAttributes;
   },
-  createCssSelector: (attributes, attributeName, tag) => {
+  createCssSelector: (attributes:any, attributeName:any, tag:any) => {
     let selector = tag;
     for (const key in attributes) {
       if (attributes.hasOwnProperty(key)) {
@@ -35,7 +35,7 @@ const parserLogic = {
     }
     return selector;
   },
-  createXpathSelector: (attributes, attributeName, tag) => {
+  createXpathSelector: (attributes:any, attributeName:any, tag:any) => {
     let selector = `//${tag}`;
     for (const key in attributes) {
       if (attributes.hasOwnProperty(key)) {
@@ -48,7 +48,7 @@ const parserLogic = {
     }
     return selector;
   },
-  copyToClipboard: (text) => {
+  copyToClipboard: (text:any) => {
     var textarea = document.createElement("textarea");
     textarea.value = text;
     document.body.appendChild(textarea);
