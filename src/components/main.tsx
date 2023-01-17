@@ -7,6 +7,7 @@ import { SelectorTypes, Transitions } from "../models/enums";
 
 export const Main = () => {
   const [selector, setSelector] = useState<any>("No Element Selected");
+  const [selectorHistory, setSelectorHistory] = useState([])
   const [attributesObjest, setAttributesObjest] = useState({});
   // const [];
   const [globalConfig, setGlobalConfig] = useState<any>({});
@@ -22,16 +23,21 @@ export const Main = () => {
 
   function cahngeRelativeElement(newPos: string) {
     switch (newPos) {
-      case "":
-        transitions.moveToFirstChild(selector);
-      case "":
-        transitions.moveToLastChild(selector);
-      case "":
-        transitions.moveToNextSibling(selector);
-      case "":
-        transitions.moveToPreviousSibling(selector);
-      case "":
-        transitions.moveToParentElement(selector);
+      case Transitions.FIRST:
+        setSelector(transitions.moveToFirstChild(selector));
+        break;
+      case Transitions.LAST:
+        setSelector(transitions.moveToLastChild(selector));
+        break;
+      case Transitions.NEXT:
+        setSelector(transitions.moveToNextSibling(selector));
+        break;
+      case Transitions.PREVIOUS:
+        setSelector(transitions.moveToPreviousSibling(selector));
+        break;
+      case Transitions.PARENT:
+        setSelector(transitions.moveToParentElement(selector));
+        break;
     }
   }
 
