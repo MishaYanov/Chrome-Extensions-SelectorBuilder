@@ -1,17 +1,17 @@
-const transitions = {
-    moveToParentElement: (element)=>{
+export const transitions = {
+    moveToParentElement: (element:any)=>{
         return element.parentElement;
     },
-    moveToNextSibling: (element)=>{
+    moveToNextSibling: (element:any)=>{
         return element.nextElementSibling;
     },
-    moveToPreviousSibling: (element)=>{
+    moveToPreviousSibling: (element:any)=>{
         return element.previousElementSibling;
     },
-    moveToFirstChild: (element)=>{
+    moveToFirstChild: (element:any)=>{
         return element.firstElementChild;
     },
-    moveToLastChild: (element)=>{ 
+    moveToLastChild: (element:any)=>{ 
         return element.lastElementChild;
     }
 
