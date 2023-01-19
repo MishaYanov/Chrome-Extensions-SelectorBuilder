@@ -1,59 +1,100 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { parserLogic } from "../Logic/parserLogic";
 import { globalConfigBuilder } from "../Logic/GlobalConfigLogic";
 import "./main.css";
 import { transitions } from "../Logic/transitionLogic";
 import { SelectorTypes, Transitions } from "../models/enums";
+import {
+  ListenToMessagesFromContentJs,
+  sendMessageToContentScript,
+} from "../services/global";
 
 export const Main = () => {
   const [selector, setSelector] = useState<any>("No Element Selected");
-  const [selectorHistory, setSelectorHistory] = useState([])
+  const [selectorHistory, setSelectorHistory] = useState([]);
   const [attributesObjest, setAttributesObjest] = useState({});
-  // const [];
+
+  //building all the variables for the xpath/css selector.
+  const [chosenAttributes, setChosenAttributes] = useState({});
   const [globalConfig, setGlobalConfig] = useState<any>({});
+
+
+  chrome.runtime.onMessage.addListener(function (request, sender, response) {
+    console.log(request.ContentData);
+    if (request.ContentData) {
+      buildConfig(request.ContentData);
+    }
+  });
 
   function startSelectionProcess() {
     //send message to content js
-
-    //recive message from content js
-
-    const attrObj: any = parserLogic.getElementAttributes(selector);
-    setAttributesObjest(attrObj);
+    sendMessageToContentScript("selectAllElements", "AllElements");
   }
 
-  function cahngeRelativeElement(newPos: string) {
-    switch (newPos) {
-      case Transitions.FIRST:
-        setSelector(transitions.moveToFirstChild(selector));
+  function buildConfig(data: any) {
+    const elementConfig = JSON.parse(data);
+    console.log(elementConfig);
+    setSelector(elementConfig.completeTag);
+    const attributes = parserLogic.getElementAttributes(
+      elementConfig.attributes
+    );
+    setAttributesObjest(attributes);
+  }
+
+
+  function manageSelectorConstruction(action: any, key: string, value: any) {
+    console.log(action);
+    if (action === true) {
+      setChosenAttributes({ ...attributesObjest, [key]: value });
+    }
+    if (action === false) {
+      const newState = Object.fromEntries(
+        Object.entries(attributesObjest).filter(([k]) => k !== key)
+      );
+      setChosenAttributes(newState);
+    }
+    console.log(chosenAttributes);
+  }
+
+  
+  function addGlobalConfig(event:any, type:string){
+    switch(type){
+      case "include":
+        if(event === true){
+
+        }
+        if(event === false){
+
+        }
         break;
-      case Transitions.LAST:
-        setSelector(transitions.moveToLastChild(selector));
+      case "itiration":
+        if(event == 0){
+
+        }else{
+
+        }
         break;
-      case Transitions.NEXT:
-        setSelector(transitions.moveToNextSibling(selector));
-        break;
-      case Transitions.PREVIOUS:
-        setSelector(transitions.moveToPreviousSibling(selector));
-        break;
-      case Transitions.PARENT:
-        setSelector(transitions.moveToParentElement(selector));
+      case "addQuerySelector":
+        if(event === true){
+
+        }
+        if(event === false){
+
+        }
         break;
     }
   }
 
-    const startCopyProcess = (selectorType: string) => {
-      const finalizedConfig = globalConfigBuilder.buildGlobalConfigObject(globalConfig);
 
-      if (selectorType === SelectorTypes.CSS) {
+  const startCopyProcess = (selectorType: string) => {
 
-      };
-      if (selectorType === SelectorTypes.XPATH) {
+    if (selectorType === SelectorTypes.CSS) {
+    }
+    if (selectorType === SelectorTypes.XPATH) {
+    }
+  };
 
-      };
-    };
-
-    function globalAction(newConfig: any, isToggled: any = null) {};
-
+  function globalAction(newConfig: any, isToggled: any = null) {}
 
   return (
     <div className="container">
@@ -65,7 +106,10 @@ export const Main = () => {
           <h4>Global Options:</h4>
           <div className="option">
             <label>1.add include</label>
-            <input type="checkbox" id="include" onClick={(el) => {}} />
+            <input type="checkbox" id="include" onClick={(el) => {
+              //@ts-ignore
+              addGlobalConfig(el.target.checked, "include")
+            }} />
             <label>2. loop every: </label>
             <input type="number" />
           </div>
@@ -77,7 +121,7 @@ export const Main = () => {
             className="btn btn-secondary"
             value="Parent Element"
             onClick={() => {
-              cahngeRelativeElement(Transitions.PARENT);
+              // cahngeRelativeElement(Transitions.PARENT);
             }}
           />
           <input
@@ -85,7 +129,7 @@ export const Main = () => {
             className="btn btn-secondary"
             value="Next Element"
             onClick={() => {
-              cahngeRelativeElement(Transitions.NEXT);
+              // cahngeRelativeElement(Transitions.NEXT);
             }}
           />
           <input
@@ -93,7 +137,7 @@ export const Main = () => {
             className="btn btn-secondary"
             value="Previous Element"
             onClick={() => {
-              cahngeRelativeElement(Transitions.PREVIOUS);
+              // cahngeRelativeElement(Transitions.PREVIOUS);
             }}
           />
           <input
@@ -101,7 +145,7 @@ export const Main = () => {
             className="btn btn-secondary"
             value="First Element"
             onClick={() => {
-              cahngeRelativeElement(Transitions.FIRST);
+              // cahngeRelativeElement(Transitions.FIRST);
             }}
           />
           <input
@@ -109,7 +153,7 @@ export const Main = () => {
             className="btn btn-secondary"
             value="Last Element"
             onClick={() => {
-              cahngeRelativeElement(Transitions.LAST);
+              // cahngeRelativeElement(Transitions.LAST);
             }}
           />
         </div>
@@ -124,7 +168,31 @@ export const Main = () => {
             <td>Attribute Value</td>
             <td>Select Value</td>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            {Object.keys(attributesObjest).map((key) => {
+              return (
+                <tr key={key}>
+                  <td>{key}</td>
+                  {/* @ts-ignore */}
+                  <td>{attributesObjest[key]}</td>
+                  <td>
+                    <input
+                      className="attr-checkbox"
+                      type="checkbox"
+                      onClick={(el: any) => {
+                        manageSelectorConstruction(
+                          el.target.checked,
+                          key,
+                          //@ts-ignore
+                          attributesObjest[key]
+                        );
+                      }}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
       <div className="bot-container">
@@ -142,7 +210,7 @@ export const Main = () => {
         <div className="finalize-Action">
           <input
             type="button"
-            className="btn btn-success"
+            className="btn btn-success btn-wide"
             value="Copy to ClipBoard As Xpath"
             id="copyBtn"
             onClick={() => {
@@ -151,7 +219,7 @@ export const Main = () => {
           />
           <input
             type="button"
-            className="btn btn-success"
+            className="btn btn-success btn-wide"
             value="Copy to ClipBoard As CSS"
             id="copyBtn"
             onClick={() => {
@@ -171,5 +239,4 @@ export const Main = () => {
       </div>
     </div>
   );
-          }
-
+};
