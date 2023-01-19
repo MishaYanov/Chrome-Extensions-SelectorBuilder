@@ -1,1 +1,4 @@
-export type kk = {}
+export type MessageType = {
+    call: any;
+    message: string;
+}

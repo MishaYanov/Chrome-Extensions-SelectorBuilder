@@ -1,11 +1,22 @@
 export const parserLogic = {
   getElementAttributes: (element:any) => {
     const attributes:any = {};
-    for (let i = 0; i < element.attributes.length; i++) {
-      const attr = element.attributes[i];
-      const values = attr.value.split(" ");
-      attributes[attr.name] = values.length > 1 ? values : attr.value;
-    }
+    Object.keys(element).map(key=>{
+      console.log(key);
+      if(key != "style"){
+        const values = element[key]?.split(" ");
+        if(values.length > 1){
+          for( let i = 0; i < values.length; i++ ){
+            const newkey = key + "-" + i;
+            attributes[newkey] = values[i];
+          }
+        }else if(values.length === 1){
+          attributes[key] = values;
+        }else{
+          attributes[key] = '';
+        }
+      }
+    });   
     return attributes;
   },
   concatSameAttributes: (attributes:any) => {
