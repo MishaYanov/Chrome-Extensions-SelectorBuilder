@@ -23,6 +23,7 @@ export const Main = () => {
     console.log(request.ContentData);
     if (request.ContentData) {
       buildConfig(request.ContentData);
+      
     }
   });
 

@@ -7,10 +7,10 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
   }
 });
 //send message to popup
-async function sendToExtension(messageContent){
+function sendToExtension(messageContent){
   console.log(messageContent)
   debugger
-  if(messageContent) await chrome.runtime.sendMessage(null, {ContentData: messageContent},(response)=>{
+  if(messageContent) chrome.runtime.sendMessage(null, {ContentData: messageContent},(response)=>{
     //console.log("I'm from the send response function: " + response);
   })
 }
