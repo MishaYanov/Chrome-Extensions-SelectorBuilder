@@ -16,14 +16,14 @@
 //     //   });
 //   });
 // });
-
-
-// chrome.runtime.onStartup.addListener(function() {
-//   chrome.debugger.attach({tabId:tab.id}, "1.2", chrome.debugger.DetachReason.REASON_CONNECTED, function () {
-//       chrome.debugger.sendCommand({tabId:tab.id}, "Debugger.enable", {}, function () {
-//           chrome.debugger.sendCommand({tabId:tab.id}, "Runtime.enable", {}, function () {
-//               console.log("Debugger attached and enabled.");
-//           });
-//       });
-//   });
-// });
+chrome.runtime.onMessage.addListener(({ContentData, value})=>{
+    debugger
+    if(ContentData){
+        debugger
+        console.log(ContentData);
+        chrome.storage.local.set({[data]: ContentData}).then((result) => {
+            console.log("Value currently is " + result.data);
+          });
+    }
+});
+console.log("HPPEPPEEPEP");
