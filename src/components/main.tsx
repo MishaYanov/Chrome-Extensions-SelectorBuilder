@@ -18,29 +18,29 @@ export const Main = () => {
   const [chosenAttributes, setChosenAttributes] = useState({});
   const [globalConfig, setGlobalConfig] = useState<any>({});
 
-
-  chrome.runtime.onMessage.addListener(function (request, sender, response) {
-    console.log(request.ContentData);
-    if (request.ContentData) {
-      buildConfig(request.ContentData);
-      
-    }
-  });
-
   function startSelectionProcess() {
     //send message to content js
     sendMessageToContentScript("selectAllElements", "AllElements");
+    window.close();
   }
 
-  function buildConfig(data: any) {
-    const elementConfig = JSON.parse(data);
-    console.log(elementConfig);
-    setSelector(elementConfig.completeTag);
-    const attributes = parserLogic.getElementAttributes(
-      elementConfig.attributes
-    );
-    setAttributesObjest(attributes);
-  }
+  useEffect(() => {
+    //get all data from local storage and console log it.
+    chrome.storage.session.get(["ContentData"], function (result) {
+      if (result.ContentData === undefined) {
+        console.log("no data");
+      } else {
+        console.log(result.ContentData);
+        const elementConfig = JSON.parse(result.ContentData);
+        debugger
+        setSelector(elementConfig.completeTag);
+        const attributes = parserLogic.getElementAttributes(
+          elementConfig.attributes
+        );
+        setAttributesObjest(attributes);
+      }
+    });
+  }, []);
 
 
   function manageSelectorConstruction(action: any, key: string, value: any) {
@@ -57,38 +57,29 @@ export const Main = () => {
     console.log(chosenAttributes);
   }
 
-  
-  function addGlobalConfig(event:any, type:string){
-    switch(type){
+  function addGlobalConfig(event: any, type: string) {
+    switch (type) {
       case "include":
-        if(event === true){
-
+        if (event === true) {
         }
-        if(event === false){
-
+        if (event === false) {
         }
         break;
       case "itiration":
-        if(event == 0){
-
-        }else{
-
+        if (event == 0) {
+        } else {
         }
         break;
       case "addQuerySelector":
-        if(event === true){
-
+        if (event === true) {
         }
-        if(event === false){
-
+        if (event === false) {
         }
         break;
     }
   }
 
-
   const startCopyProcess = (selectorType: string) => {
-
     if (selectorType === SelectorTypes.CSS) {
     }
     if (selectorType === SelectorTypes.XPATH) {
@@ -107,56 +98,23 @@ export const Main = () => {
           <h4>Global Options:</h4>
           <div className="option">
             <label>1.add include</label>
-            <input type="checkbox" id="include" onClick={(el) => {
-              //@ts-ignore
-              addGlobalConfig(el.target.checked, "include")
-            }} />
+            <input
+              type="checkbox"
+              id="include"
+              onClick={(el) => {
+                //@ts-ignore
+                addGlobalConfig(el.target.checked, "include");
+              }}
+            />
             <label>2. loop every: </label>
             <input type="number" />
           </div>
         </div>
         <div className="traverse">
           <h4>change Element</h4>
-          <input
-            type="button"
-            className="btn btn-secondary"
-            value="Parent Element"
-            onClick={() => {
-              // cahngeRelativeElement(Transitions.PARENT);
-            }}
-          />
-          <input
-            type="button"
-            className="btn btn-secondary"
-            value="Next Element"
-            onClick={() => {
-              // cahngeRelativeElement(Transitions.NEXT);
-            }}
-          />
-          <input
-            type="button"
-            className="btn btn-secondary"
-            value="Previous Element"
-            onClick={() => {
-              // cahngeRelativeElement(Transitions.PREVIOUS);
-            }}
-          />
-          <input
-            type="button"
-            className="btn btn-secondary"
-            value="First Element"
-            onClick={() => {
-              // cahngeRelativeElement(Transitions.FIRST);
-            }}
-          />
-          <input
-            type="button"
-            className="btn btn-secondary"
-            value="Last Element"
-            onClick={() => {
-              // cahngeRelativeElement(Transitions.LAST);
-            }}
-          />
+          <div className="show-children">
+            show children
+          </div>
         </div>
       </div>
       <div className="element-description">
@@ -234,6 +192,8 @@ export const Main = () => {
             id="clearBtn"
             onClick={() => {
               setSelector("No Element Selected");
+              setAttributesObjest({});
+              setChosenAttributes({});
             }}
           />
         </div>

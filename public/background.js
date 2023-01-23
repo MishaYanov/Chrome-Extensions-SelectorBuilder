@@ -21,9 +21,6 @@ chrome.runtime.onMessage.addListener(({ContentData, value})=>{
     if(ContentData){
         debugger
         console.log(ContentData);
-        chrome.storage.local.set({[data]: ContentData}).then((result) => {
-            console.log("Value currently is " + result.data);
-          });
+        chrome.storage.session.set({ContentData: ContentData});
     }
 });
-console.log("HPPEPPEEPEP");
