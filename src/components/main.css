@@ -151,3 +151,11 @@ table {
     border: 1px solid #dddddd;
     padding: 8px;
   }
+  .selector-input{
+      width: 30px;
+  }
+  .global-options{
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+  }

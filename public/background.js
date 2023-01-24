@@ -1,3 +1,5 @@
+
+//TODO: implement select element via right click.
 // chrome.runtime.onInstalled.addListener(function (details) {
 //   chrome.storage.local.set({
 //     elements: [],
@@ -21,6 +23,7 @@ chrome.runtime.onMessage.addListener(({ContentData, value})=>{
     if(ContentData){
         debugger
         console.log(ContentData);
+        //TDOD: check if there is an old selector, if so, store it in the history section.
         chrome.storage.session.set({ContentData: ContentData});
     }
 });

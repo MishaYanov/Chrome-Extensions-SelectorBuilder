@@ -8,8 +8,8 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
 });
 //send message to popup
 function sendToExtension(messageContent){
-  console.log(messageContent)
-  debugger
+  console.log(messageContent);
+  debugger;
   if(messageContent) chrome.runtime.sendMessage(null, {ContentData: messageContent},(response)=>{
     //console.log("I'm from the send response function: " + response);
   })
@@ -25,10 +25,13 @@ function addOnHover(event){
 function removeOnOut(event){
   event.target.style.backgroundColor = "";
 }
+
 function onSelect(event){
+  event.stopPropagation();
   endSelectionProcess(event.target);
   event.target.style.backgroundColor = "#00c8502f";
 }
+
 function getAllAttributesAndValues(element){
   const attrKV = {}
   for(let i = 0; i < element.attributes.length; i++){
@@ -60,13 +63,15 @@ function endSelectionProcess(selectedElement) {
       attributes: ElementMap,
     }
     const jsonElement = JSON.stringify(elementInfo);
-    sendToExtension(jsonElement)
+    sendToExtension(jsonElement);
   }
   const allElements = getAllElements();
   for (const element of allElements) {
     element.removeEventListener("click", onSelect);
-    element.removeEventListener("mouseover", addOnHover)
-    element.removeEventListener("mouseout", removeOnOut)
+    element.removeEventListener("mouseover", addOnHover);
+    element.removeEventListener("mouseout", removeOnOut);
   }
 }
 
+//TODO: build a stylesheet that will be having classes for mouseover, click and mouseout
+//TODO: additional content js type file to work on the DOM and split logic 
