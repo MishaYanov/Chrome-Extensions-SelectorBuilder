@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
 import { parserLogic } from "../Logic/parserLogic";
-import { globalConfigBuilder } from "../Logic/GlobalConfigLogic";
 import "./main.css";
 import { SelectorTypes, Transitions } from "../models/enums";
 import {

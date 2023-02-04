@@ -1,5 +1,5 @@
 import { SelectorTypes } from "../models/enums";
-
+//TODO: make it more efficent and readable
 export const parserLogic = {
   getElementAttributes: (element: any) => {
     const attributes: any = {};
@@ -57,8 +57,8 @@ export const parserLogic = {
     }
     console.log(selector);
     if (globalConfig?.querySelector === true) {
-      QuerySelectorOperator[0] = "document.querySelector(";
-      QuerySelectorOperator[1] = ")";
+      QuerySelectorOperator[0] = "document.querySelector('";
+      QuerySelectorOperator[1] = "')";
       return `${QuerySelectorOperator[0]}${selector}${QuerySelectorOperator[1]}`;
     }
     return selector;

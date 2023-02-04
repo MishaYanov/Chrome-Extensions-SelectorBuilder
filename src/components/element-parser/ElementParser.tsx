@@ -1,54 +1,66 @@
 import React, { useEffect, useState } from "react";
-import { treeViewParser } from "../../Logic/parserLogic";
-// import {Attr} from 'lib.dom.d.ts'
 
-
+/**
+ * @param {string} htmlString
+ * @returns {JSX.Element}
+ * @constructor
+ * @description
+ * This component is responsible for parsing the html string and displaying it in a tree view.
+ * It also allows the user to select an element and see its attributes.
+ * @todo
+ * 1. Add a button to the element that allows the user to select it.
+ * 2. Add a button to the element that allows the user to deselect it.
+ * 3. Add a button to the element that allows the user to select all its children.
+ * 4. Add a button to the element that allows the user to deselect all its children.
+ */
 export const ElementParser = (props: any) => {
-  const [htmlString, setHtmlString] = useState("");
-
-
-  const [htmlDoc, setHtmlDoc] = useState<any>();
-  const [selected, setSelected] = useState<Element | null>(null);
-  const [attributes, setAttributes] = useState({});
-
-  let htmlStringPreParse: string = props.htmlString;
   const parser = new DOMParser();
-
+  //html sting from the innerHTML of the element
+  const [htmlString, setHtmlString] = useState<string>("");
+  const [parsedHtml, setParsedHtml] = useState<any>();
+console.log(props.htmlString);
   useEffect(() => {
-    debugger;
-    htmlStringPreParse = props.htmlString;
-    console.log(htmlStringPreParse);
-    if (htmlStringPreParse.length > 0) {
-      setHtmlDoc(parser.parseFromString(htmlStringPreParse, "text/html"));
-    }
-  }, [htmlStringPreParse]);
-
-  const createTree = (element: Element, level: number = 0) => {
+    (() => {
+      debugger
+      if(props.htmlString.length > 0){
+        setHtmlString(props.htmlString);
+        setParsedHtml(parser.parseFromString(props.htmlString, "text/html"));
+        console.log(parsedHtml);
+      }
+    })()
+  }, [htmlString]);
+  //TODO: copy the logic from contentjs to parse new html string
+  const createTree = (element: Element, level: number = 0, spacing:string="--") => {
     return (
       <div>
-        <button onClick={() => selectElement(element)}>
-          {"  ".repeat(level) + element.tagName}
+        {"|"}{spacing}<button className="btn btn-warning btn-bot-space" onClick={() => selectElement(element)}>
+          {" ".repeat(level) + element.tagName}
         </button>
         {Array.from(element.children).map((child: Element) =>
-          createTree(child, level + 1)
+          createTree(child, level + 1, spacing+"--")
         )}
       </div>
     );
   };
-
-  const selectElement = (el: Element) => {
-    setSelected(el);
-    setAttributes(
-      Array.from(el.attributes).reduce(
-        (acc: object, { name, value }: Attr) => ({ ...acc, [name]: value }),
-        {}
-      )
-    );
-  };
-  return <div className="element-praser__container">
-    <textarea value={htmlString} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setHtmlString(e.target.value)}/>
-      <div>{createTree(htmlDoc.body)}</div>
-      <div>Selected: {selected ? selected.tagName : 'None'}</div>
-      <div>Attributes: {JSON.stringify(attributes)}</div>
-  </div>;
+  function selectElement(el: Element) {
+    console.log(el);
+    
+  }
+  return (
+    <div className="">
+      {htmlString.length === 0 && (
+        <div className="element-praser__container">
+          <h1>No Element Selected</h1>
+        </div>
+      )}
+      {htmlString.length > 0 && (
+        <div className="element-praser__container">
+          <p>{htmlString}</p>
+          <br /><br />
+          <textarea value={htmlString} onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setHtmlString(e.target.value)}/>
+          <div>{createTree(parsedHtml.body)}</div>
+        </div>
+      )}
+    </div>
+  );
 };

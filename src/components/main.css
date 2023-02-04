@@ -4,6 +4,8 @@
     --color-primary-dark: #0d47a1;
     --color-success: #00c851;
     --color-success-dark: #007e33;
+    --color-warning: #ffbb33;
+    --color-warning-dark: #ff6d00;
     --color-secondary: #fff;
     --color-text: #fff;
     --color-white: #ffffff;
@@ -91,6 +93,18 @@ border-radius: var(--border-radius);
 }
 .btn-success:hover{
     background-color: var(--color-success-dark);
+}
+.btn-warning{
+    background-color: var(--color-white);
+    border: 1px solid var(--color-warning);
+    color: var(--color-text);
+    padding: 1px !important;
+}
+.btn-warning:hover{
+    border: 2px solid var(--color-warning-dark);
+}
+.btn-bot-space{
+    margin-bottom: 5px;
 }
 .btn-wide{
     width: fit-content;
