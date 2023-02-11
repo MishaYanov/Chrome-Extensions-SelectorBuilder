@@ -1,6 +1,6 @@
 export async function sendMessageToContentScript(
   content: any,
-  expectedResponse: any
+  expectedResponse: any,
 ) {
   const activeTab = await getActiveTabURL();
   if (activeTab) chrome.tabs.sendMessage(activeTab.id!, { action: content });

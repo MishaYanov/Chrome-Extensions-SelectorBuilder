@@ -1,0 +1,14 @@
+.special_tree_btn{
+    border: 0.5px solid var(--color-warning) !important;
+    width: 80px !important;
+    height: 30px !important;
+    color: darkgray !important;
+}
+.special_tree_btn:hover{
+    border: 0.5px solid var(--color-warning-dark) !important;
+    color: var(--color-warning-dark) !important;
+}
+.element-praser__container{
+    background-color: rgba(255, 255, 255, 0.327);
+    overflow: scroll;
+}

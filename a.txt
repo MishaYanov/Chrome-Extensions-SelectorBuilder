@@ -1,0 +1,32 @@
+<div className="option">
+            {/* <label>1.add include</label>
+            <input
+              type="checkbox"
+              id="include"
+              onClick={(el:any) => {
+                addGlobalConfig(el.target.checked, "include");
+              }}
+            /> */}
+          <div className="option">
+              <label>2.Add Query Selector: </label>
+              <input
+                type="checkbox"
+                id="include"
+                onClick={(el:any) => {
+                  addGlobalConfig(el.target.checked, "addQuerySelector");
+                }}
+              />
+            </div>
+            <div className="option">
+            <label>3.Loop:</label>
+            <span>Every  <input className="selector-input" type="number" min={0}/> Times.</span>
+            <span>Start From  <input className="selector-input" type="number" min={0} /> Element.</span>
+            </div>
+          </div>
+        </div>
+        <div className="traverse">
+          <h4>change Element</h4>
+          <input type="button" value={isMainView?"Parse Children":"Back to Selector"} className="btn btn-main" onClick={()=>{
+            setIsMainView(!isMainView);
+          }}/>
+        </div>

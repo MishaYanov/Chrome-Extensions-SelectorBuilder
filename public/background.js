@@ -23,7 +23,10 @@ chrome.runtime.onMessage.addListener(({ContentData, value})=>{
     if(ContentData){
         debugger
         console.log(ContentData);
-        //TDOD: check if there is an old selector, if so, store it in the history section.
+        const oldSelector = chrome.storage.session.get("ContentData");
+        if(oldSelector){
+            chrome.storage.session.set({history: oldSelector});
+        }
         chrome.storage.session.set({ContentData: ContentData});
     }
 });

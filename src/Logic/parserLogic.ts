@@ -61,6 +61,10 @@ export const parserLogic = {
       QuerySelectorOperator[1] = "')";
       return `${QuerySelectorOperator[0]}${selector}${QuerySelectorOperator[1]}`;
     }
+    if(globalConfig?.loop.event===true){
+      const loopOperator = `:nth-of-type(${globalConfig.loop.loop}n + ${globalConfig.loop.start})`
+      selector += loopOperator;
+    }
     return selector;
   },
   createXpathSelector: (attributes: any, tag: string, globalConfig: any) => {
@@ -87,8 +91,21 @@ export const parserLogic = {
         '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;';
       return `${QuerySelectorOperator[0]}${selector}${QuerySelectorOperator[1]}`;
     }
+    if(globalConfig?.loop.event===true){
+      const loopOperator = `[position() - ${globalConfig.loop.start} mod ${globalConfig.loop.loop} = 0 and position() >= ${globalConfig.loop.start}]`;
+      selector += loopOperator;
+    }
     return selector;
   },
+  getAllAttributesAndValues:(element: any)=>{
+    const attrKV:any | string[] = {}
+    for(let i = 0; i < element.attributes.length; i++){
+      const curEl = element.attributes[i];
+      const attrValues = curEl.value.replace(/\\&quot;|\\/g, "");;
+      attrKV[curEl.name] = attrValues;
+    }
+    return attrKV;
+  }
 };
 
 export const treeViewParser = {
