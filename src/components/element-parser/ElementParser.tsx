@@ -119,6 +119,7 @@ export const ElementParser = (props: any) => {
               id="select-element-button"
               onClick={() => {
                 if (newElementChosen) {
+                  //TODO: exchange the logic of the saved element
                 }
               }}
             />
@@ -131,26 +132,3 @@ export const ElementParser = (props: any) => {
     </div>
   );
 };
-
-/** old solution
- *     debugger
-    if(!el) return;
-    console.log(el);
-    const filter = /<(.*?)>/;
-    // @ts-ignore
-    const elementAttr = filter.exec(el.outerHTML)[1];
-    //remove \"
-    const elementAttr2 = elementAttr.replace(/\\&quot;|\\/g, "");
-    const outer = el.outerHTML.replace(/<([a-zA-Z][a-zA-Z0-9]*)(?=[^>]*?>)(?![^<]*?<\/\1>)[^>]*?>|\\&quot;|&lt;|&gt;\\/g, "");
-    console.log(elementAttr ,elementAttr2);
-    const ElementMap = parserLogic.getAllAttributesAndValues(el);
-    const ElementMapClean = ElementMap;
-    setNewElementCohsen(`<${elementAttr2}>`);
-    const elementInfo = {
-      element: JSON.stringify(outer),
-      completeTag: `<${elementAttr2}>`,
-      tag: el.tagName,
-      attributes: ElementMapClean,
-    }
-    console.log(elementInfo);
- */

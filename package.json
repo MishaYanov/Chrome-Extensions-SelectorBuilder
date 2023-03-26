@@ -20,6 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "set INLINE_RUNTIME_CHUNK=false && react-scripts build",
+    "build-dev": "set INLINE_RUNTIME_CHUNK=false && react-scripts build --no-minify --inspect-brk",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

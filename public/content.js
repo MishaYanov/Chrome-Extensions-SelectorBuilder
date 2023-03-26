@@ -1,7 +1,7 @@
 const style = document.createElement("style");
 
 style.innerHTML = `
-.selected-element-ext-m{
+*[ext-el-main ='selected-element-ext-m']{
   background-color: #00c8502f !important;
 }
 `;
@@ -38,6 +38,7 @@ function sendToExtension(messageContent) {
       }
     );
 }
+
 //send message to backgrong
 function getAllElements() {
   return document.querySelectorAll("*");
@@ -53,18 +54,19 @@ function removeOnOut(event) {
 
 //TODO: change logic to use chrome debugger API
 async function onSelect(event, flag = false) {
+  debugger
   clearOldChoiceFromDOM();
   if (flag) {
     //if flag event turns into target.
     event.style.backgroundColor = "";
-    event.classList.add("selected-element-ext-m");
+    event.setAttribute("ext-el-main", "selected-element-ext-m");
     await applyAttributeToChildren(event);
     endSelectionProcess(event);
   } else {
     event.stopPropagation();
     await applyAttributeToChildren(event.target);
     event.target.style.backgroundColor = "";
-    event.target.classList.add("selected-element-ext-m");
+    event.target.setAttribute("ext-el-main", "selected-element-ext-m");
     endSelectionProcess(event.target);
   }
 }
@@ -114,9 +116,9 @@ function endSelectionProcess(selectedElement) {
   }
 }
 function clearOldChoiceFromDOM(){
-  const oldSlector = document.querySelector("*.selected-element-ext-m");
+  const oldSlector = document.querySelector("*[ext-el-main='selected-element-ext-m']");
   if (oldSlector) {
-    oldSlector.classList.remove("selected-element-ext-m");
+    oldSlector.removeAttribute("ext-el-main");
     oldSlector.querySelectorAll("*").forEach((child) => {
       child.removeAttribute("ext-el-pos");
     });

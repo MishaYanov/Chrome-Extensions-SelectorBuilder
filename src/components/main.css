@@ -12,6 +12,7 @@
   --color-text: #fff;
   --color-white: #ffffff;
   --color-gray: lightgrey;
+  --color-gray-dark: rgb(126, 126, 126);
 
   /* styling */
   --border-radius: 0px;
@@ -83,10 +84,21 @@ body {
   cursor: pointer;
   margin: 0;
 }
+.option > h4{
+  margin-left: 15px;
+}
 
 .option-active {
   background-color: var(--color-success);
   color: var(--color-text);
+}
+.option:hover{
+  background-color: var(--color-gray-dark);
+}
+.option-active.option:hover{
+  background-color: var(--color-success);
+  color: var(--color-text);
+  z-index: 999;
 }
 .nth-input{
   width: 50px;

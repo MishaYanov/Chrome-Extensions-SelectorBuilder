@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "AttributeCopier",
-  "version": "0.6",
+  "version": "0.62",
   "description": "Copying HTML tags either as CSS selector or Xpath",
   "permissions": [
     "activeTab",
