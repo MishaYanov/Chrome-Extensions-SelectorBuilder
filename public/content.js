@@ -28,7 +28,6 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
 //send message to popup
 function sendToExtension(messageContent) {
   console.log(messageContent);
-  debugger;
   if (messageContent)
     chrome.runtime.sendMessage(
       null,
@@ -54,7 +53,6 @@ function removeOnOut(event) {
 
 //TODO: change logic to use chrome debugger API
 async function onSelect(event, flag = false) {
-  debugger
   clearOldChoiceFromDOM();
   if (flag) {
     //if flag event turns into target.

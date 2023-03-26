@@ -15,6 +15,8 @@ export const Main = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   //1. main view; 2. childern view; 3. history view
   const [isMainView, setIsMainView] = useState("main");
+  const [isClear, setIsClear] = useState(false);
+
 
   const [finatlSelector, setFinalSelector] = useState("");
 
@@ -83,7 +85,6 @@ export const Main = () => {
   }, [isMainView]);
 
   function getDataAndLoad(): void {
-    debugger;
     chrome.storage.session.get(["ContentData"], function (result) {
       if (result.ContentData === undefined) {
         console.log("no data");
@@ -277,6 +278,9 @@ export const Main = () => {
       copyToClipboard(builtSelector);
     }
   };
+  const clearChildren = () => {
+    setIsClear(true);
+  }
 
   return (
     <div className="container" ref={containerRef}>
@@ -527,7 +531,7 @@ export const Main = () => {
       )}
       {/* TODO: build the element parser */}
       {isMainView === "tree" && (
-        <ElementParser htmlString={element}></ElementParser>
+        <ElementParser htmlString={element} isClear={isClear} onClearDone={() => setIsClear(false)}></ElementParser>
       )}
       {/* TODO: build the custom builder */}
       {isMainView === "custom" && <h1>NOT READY</h1>}
@@ -575,7 +579,8 @@ export const Main = () => {
               setAttributesObjest({});
               setChosenAttributes({});
               setTag("");
-              chrome.storage.local.set({ ContentData: "" });
+              clearChildren();
+              chrome.storage.session.set({ ContentData: "" });
             }}
           />
         </div>

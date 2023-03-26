@@ -12,12 +12,7 @@ import { isDisabled } from "@testing-library/user-event/dist/utils";
  * @description
  * This component is responsible for parsing the html string and displaying it in a tree view.
  * It also allows the user to select an element and see its attributes.
- * @todo
- * 1. Add a button to the element that allows the user to select it.
- * 2. Add a button to the element that allows the user to deselect it.
- * 3. Add a button to the element that allows the user to select all its children.
- * 4. Add a button to the element that allows the user to deselect all its children.
- */
+ * */
 export const ElementParser = (props: any) => {
   const parser = new DOMParser();
   //html sting from the innerHTML of the element
@@ -29,7 +24,6 @@ export const ElementParser = (props: any) => {
   console.log(props.htmlString);
   useEffect(() => {
     (() => {
-      debugger;
       if (props.htmlString.length > 0) {
         setHtmlString(props.htmlString);
         setParsedHtml(parser.parseFromString(props.htmlString, "text/html"));
@@ -37,33 +31,63 @@ export const ElementParser = (props: any) => {
       }
     })();
   }, [htmlString]);
+
+  useEffect(() => {
+    if (props.isClear) {
+      setHtmlString("");
+      setParsedHtml("");
+      setNewElementCohsen("");
+      const treeDiv = document.getElementById("tree-element");
+      if (treeDiv) {
+        treeDiv.parentNode?.removeChild(treeDiv);
+      }
+      props.onClearDone();
+    }
+  }, [props.isClear, props.onClearDone]);
   //TODO: copy the logic from contentjs to parse new html string
   const createTree = (
-    element: Element,
+    element: Element | HTMLElement,
     level: number = 0,
     spacing: string = "--"
   ) => {
-    return (
-      <div>
-        {"|"}
-        {spacing}
-        <button
-          className="btn btn-warning btn-bot-space special_tree_btn"
-          onClick={() => selectElement(element)}
-          onMouseEnter={() => {
-            handleMouseEnter(element);
-          }}
-          onMouseLeave={() => {
-            handleMouseLeave(element);
-          }}
-        >
-          {" ".repeat(level) + element.tagName}
-        </button>
-        {Array.from(element.children).map((child: Element) =>
-          createTree(child, level + 1, spacing + "--")
-        )}
-      </div>
-    );
+    if (!element) return;
+    if (element.tagName === "SCRIPT") return;
+    if (element.tagName === "STYLE") return;
+    if (element.tagName === "HEAD") return;
+    if (element.tagName === "HTML") return;
+    if (element.tagName === "META") return;
+    if (element.tagName === "LINK") return;
+    if (element.tagName === "TITLE") return;
+    if (element.tagName === "BASE") return;
+    if (element.tagName === "NOSCRIPT") return;
+    if (element.tagName === "TEMPLATE") return;
+    if (element.tagName === "FORM") return;
+    if (element instanceof Element) {
+      return (
+        <div>
+          {/* //check if dom element instance */}
+          {"|"}
+          {spacing}
+          {element.tagName !== "BODY" && (
+            <button
+              className="btn btn-warning btn-bot-space special_tree_btn"
+              onClick={() => selectElement(element)}
+              onMouseEnter={() => {
+                handleMouseEnter(element);
+              }}
+              onMouseLeave={() => {
+                handleMouseLeave(element);
+              }}
+            >
+              {" ".repeat(level) + element.tagName}
+            </button>
+          )}
+          {Array.from(element.children).map((child: Element) =>
+            createTree(child, level + 1, spacing + "--")
+          )}
+        </div>
+      );
+    }
   };
   function selectElement(elm: Element) {
     if (!elm) return;
@@ -125,7 +149,7 @@ export const ElementParser = (props: any) => {
             />
           </div>
           <div className="element-praser__container">
-            <div>{createTree(parsedHtml.body)}</div>
+            <div id="tree-element">{createTree(parsedHtml.body)}</div>
           </div>
         </>
       )}

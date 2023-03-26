@@ -19,9 +19,7 @@
 //   });
 // });
 chrome.runtime.onMessage.addListener(({ContentData, value})=>{
-    debugger
     if(ContentData){
-        debugger
         console.log(ContentData);
         const oldSelector = chrome.storage.session.get("ContentData");
         if(oldSelector){
