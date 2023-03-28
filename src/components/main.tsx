@@ -8,7 +8,10 @@ import {
 } from "../services/Messaging";
 import { ElementParser } from "./element-parser/ElementParser";
 import { copyToClipboard } from "../Logic/SelectorLogic";
-import {History} from "./history-component/History";
+import { History } from "./history-component/History";
+import { tips } from "../models/tips";
+import Tooltip from "./explain-pop/Tooltip";
+import info from "../assets/icons/info.png";
 
 export const Main = () => {
   //TODO: make it a case type state to go through all the windows
@@ -16,7 +19,6 @@ export const Main = () => {
   //1. main view; 2. childern view; 3. history view
   const [isMainView, setIsMainView] = useState("main");
   const [isClear, setIsClear] = useState(false);
-
 
   const [finatlSelector, setFinalSelector] = useState("");
 
@@ -54,8 +56,8 @@ export const Main = () => {
     querySelector: false,
     querySelectorAll: false,
     loop: { event: false, start: 0, loop: 0 },
-    has: {event: false, selector: "", connectAttribute: "" },
-    not: {event:false, selector:"", connectAttribute: ""},
+    has: { event: false, selector: "", connectAttribute: "" },
+    not: { event: false, selector: "", connectAttribute: "" },
   });
 
   const loopBtnRef = useRef<HTMLDivElement>(null);
@@ -143,7 +145,7 @@ export const Main = () => {
           setGlobalConfig(newGlobalConfig);
         }
         break;
-        
+
       case "itiration":
         const curRenderValueLoop = !isLoop;
         setIsLoop(!isLoop);
@@ -167,7 +169,6 @@ export const Main = () => {
         }
         break;
 
-
       case "addQuerySelector":
         console.log(isQuerySelector);
         const curRenderValueSelector = !isQuerySelector;
@@ -189,7 +190,6 @@ export const Main = () => {
         }
         break;
 
-
       case "addQuerySelectorAll":
         const curRenderValueSelectorAll = !isQuerySelectorAll;
         setIsQuerySelectorAll(!isQuerySelectorAll);
@@ -209,7 +209,6 @@ export const Main = () => {
         }
         break;
 
-      
       case "has":
         const curRenderValueHas = !isHas;
         setIsHas(!isHas);
@@ -280,7 +279,7 @@ export const Main = () => {
   };
   const clearChildren = () => {
     setIsClear(true);
-  }
+  };
 
   return (
     <div className="container" ref={containerRef}>
@@ -302,6 +301,13 @@ export const Main = () => {
                 }}
               >
                 <h4>Add contains</h4>{" "}
+                <div className="tooltip-holder">
+                  <Tooltip
+                    icon={info}
+                    message={tips.include}
+                    style={"tooltip-style-l"}
+                  ></Tooltip>
+                </div>
               </div>
               {/*  */}
               <div
@@ -311,6 +317,13 @@ export const Main = () => {
                 }}
               >
                 <h4>Add Query Selector</h4>{" "}
+                <div className="tooltip-holder">
+                  <Tooltip
+                    icon={info}
+                    message={tips.querySelector}
+                    style={"tooltip-style-l"}
+                  ></Tooltip>
+                </div>
               </div>
               {/*  */}
               <div
@@ -322,6 +335,13 @@ export const Main = () => {
                 }}
               >
                 <h4>Add Query Selector All</h4>{" "}
+                <div className="tooltip-holder">
+                  <Tooltip
+                    icon={info}
+                    message={tips.querySelectorAll}
+                    style={"tooltip-style-l"}
+                  ></Tooltip>
+                </div>
               </div>
               {/*  */}
               <div
@@ -374,6 +394,13 @@ export const Main = () => {
                     id=""
                   />
                 </h4>
+                <div className="tooltip-holder">
+                  <Tooltip
+                    icon={info}
+                    message={tips.loop}
+                    style={"tooltip-style-l"}
+                  ></Tooltip>
+                </div>
               </div>
               {/*  */}
               <div
@@ -409,6 +436,13 @@ export const Main = () => {
                     }}
                   />
                 </h4>{" "}
+                <div className="tooltip-holder">
+                  <Tooltip
+                    icon={info}
+                    message={tips.has}
+                    popupStyle={"tooltip-style-invert"}
+                  ></Tooltip>
+                </div>
               </div>
               <div
                 className={isNot ? "option option-active" : "option"}
@@ -446,6 +480,13 @@ export const Main = () => {
                     }}
                   />
                 </h4>{" "}
+                <div className="tooltip-holder">
+                  <Tooltip
+                    icon={info}
+                    message={tips.not}
+                    popupStyle={"tooltip-style-invert"}
+                  ></Tooltip>
+                </div>
               </div>
             </div>
           </>
@@ -475,7 +516,7 @@ export const Main = () => {
               setIsMainView("custom");
             }}
           >
-            <h4>History</h4>
+            <h4>Custom</h4>
           </div>
           <div
             className={isMainView === "history" ? "tab tab-active" : "tab"}
@@ -531,13 +572,15 @@ export const Main = () => {
       )}
       {/* TODO: build the element parser */}
       {isMainView === "tree" && (
-        <ElementParser htmlString={element} isClear={isClear} onClearDone={() => setIsClear(false)}></ElementParser>
+        <ElementParser
+          htmlString={element}
+          isClear={isClear}
+          onClearDone={() => setIsClear(false)}
+        ></ElementParser>
       )}
       {/* TODO: build the custom builder */}
       {isMainView === "custom" && <h1>NOT READY</h1>}
-      {isMainView === "history" && (
-       <History></History>
-      )}
+      {isMainView === "history" && <History></History>}
       <div className="bot-container">
         <div className="element-selector">
           <input

@@ -65,12 +65,13 @@ body {
   width: 100%;
 }
 .global-options {
+  position: relative;
   display: flex;
   flex-direction: column;
   /* flex-wrap: nowrap;
     justify-content: flex-start; */
   width: 100%;
-  height: 210px;
+  height: 220px;
   gap: 1px;
   overflow-y: scroll;
 }
@@ -258,6 +259,14 @@ td {
   animation: error-flash 0.5s;
 }
 
+.tooltip-holder{
+  position: absolute;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  right: 5px;
+}
+
 
 @keyframes error-flash {
   0% {
@@ -270,3 +279,4 @@ td {
     background-color: var(--color-gray);
   }
 }
+

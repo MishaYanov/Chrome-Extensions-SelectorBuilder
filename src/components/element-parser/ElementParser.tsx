@@ -61,7 +61,6 @@ export const ElementParser = (props: any) => {
     if (element.tagName === "BASE") return;
     if (element.tagName === "NOSCRIPT") return;
     if (element.tagName === "TEMPLATE") return;
-    if (element.tagName === "FORM") return;
     if (element instanceof Element) {
       return (
         <div>

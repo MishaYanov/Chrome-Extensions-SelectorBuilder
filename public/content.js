@@ -4,6 +4,9 @@ style.innerHTML = `
 *[ext-el-main ='selected-element-ext-m']{
   background-color: #00c8502f !important;
 }
+*[ext-el-highlight]{
+  background-color: #ffe900 !important;
+}
 `;
 const head = document.head || document.getElementsByTagName("head")[0];
 head.appendChild(style);
@@ -44,10 +47,14 @@ function getAllElements() {
 }
 
 function addOnHover(event) {
-  event.target.style.backgroundColor = "yellow";
+  // event.target.style.backgroundColor = "yellow";
+  event.target.setAttribute("ext-el-highlight","");
+
 }
 function removeOnOut(event) {
-  event.target.style.backgroundColor = "";
+  // event.target.style.backgroundColor = "";
+  event.target.removeAttribute("ext-el-highlight");
+
 }
 
 
@@ -56,14 +63,15 @@ async function onSelect(event, flag = false) {
   clearOldChoiceFromDOM();
   if (flag) {
     //if flag event turns into target.
-    event.style.backgroundColor = "";
+    event.removeAttribute("ext-el-highlight");
     event.setAttribute("ext-el-main", "selected-element-ext-m");
     await applyAttributeToChildren(event);
     endSelectionProcess(event);
   } else {
     event.stopPropagation();
     await applyAttributeToChildren(event.target);
-    event.target.style.backgroundColor = "";
+    // event.target.style.backgroundColor = "";
+    event.target.removeAttribute("ext-el-highlight");
     event.target.setAttribute("ext-el-main", "selected-element-ext-m");
     endSelectionProcess(event.target);
   }
@@ -125,11 +133,11 @@ function clearOldChoiceFromDOM(){
 //Tree parser functions
 function highlightChildElement(pos) {
   const elementToHighLight = document.querySelector(`*[ext-el-pos="${pos}"]`);
-  elementToHighLight.style.backgroundColor = "yellow";
+  elementToHighLight.setAttribute("ext-el-highlight","");
 }
 function unhighlightChildElement(pos) {
   const elementToUnhighlight = document.querySelector(`*[ext-el-pos="${pos}"]`);
-  elementToUnhighlight.style.backgroundColor = "";
+  elementToUnhighlight.removeAttribute("ext-el-highlight");
 }
 function selctChildElement(pos) {
   const newMainEl = document.querySelector(`*[ext-el-pos="${pos}"]`);
