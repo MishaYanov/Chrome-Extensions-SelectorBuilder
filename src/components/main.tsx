@@ -92,6 +92,7 @@ export const Main = () => {
         console.log("no data");
       } else {
         const elementConfig = JSON.parse(result.ContentData);
+        
         setSelector(elementConfig.completeTag);
         let attributes = parserLogic.getElementAttributes(
           elementConfig.attributes

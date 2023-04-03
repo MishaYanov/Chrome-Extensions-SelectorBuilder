@@ -64,6 +64,9 @@ body {
   max-height: 250px;
   width: 100%;
 }
+.action-Panel h4{
+  padding: 0 5px;
+}
 .global-options {
   position: relative;
   display: flex;
@@ -201,6 +204,9 @@ body {
   padding: 5px;
   max-height: 180px;
   overflow-y: scroll;
+}
+.element-description h4{
+  padding: 0 5px;
 }
 .finalize-Action {
   width: 50%;
